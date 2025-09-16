@@ -1,0 +1,37 @@
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+# Configuração para as funções serverless
+[functions]
+  directory = "netlify/functions"
+
+# Headers para CORS
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# Redirecionamento para a função da API
+[[redirects]]
+  from = "/api/cartola/*"
+  to = "/.netlify/functions/cartola-api?endpoint=:splat"
+  status = 200
+
+# Configurações de cache para assets estáticos
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"

@@ -131,7 +131,8 @@ async function fetchCartolaAPI() {
     const statusController = new AbortController();
     const statusTimeout = setTimeout(() => statusController.abort(), 5000);
     
-    const statusResponse = await fetch('https://api.cartola.globo.com/mercado/status', {
+    // Usar a função Netlify como proxy para evitar problemas de CORS
+    const statusResponse = await fetch('/api/cartola/mercado/status', {
       signal: statusController.signal
     });
     clearTimeout(statusTimeout);
@@ -151,7 +152,8 @@ async function fetchCartolaAPI() {
     const dataController = new AbortController();
     const dataTimeout = setTimeout(() => dataController.abort(), 10000);
     
-    const response = await fetch('https://api.cartola.globo.com/atletas/mercado', {
+    // Usar a função Netlify como proxy para evitar problemas de CORS
+    const response = await fetch('/api/cartola/atletas/mercado', {
       signal: dataController.signal
     });
     clearTimeout(dataTimeout);
@@ -295,7 +297,7 @@ async function loadData() {
       if (updateElement) {
         // Buscar novamente o status para restaurar as bolinhas
         try {
-          const statusResponse = await fetch('https://api.cartola.globo.com/mercado/status');
+          const statusResponse = await fetch('/api/cartola/mercado/status');
           if (statusResponse.ok) {
             const statusData = await statusResponse.json();
             updateMarketStatus(statusData);
